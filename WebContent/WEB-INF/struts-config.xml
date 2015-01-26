@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
+    "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
+
+<struts-config>
+    <!-- ========== Form Bean Definitions =================================== -->
+    <form-beans>
+        <!-- There is only one struts form bean for the whole entire property page, the other form bean
+		     does not derived from struts ActionForm  -->
+        <form-bean name="propertyPage"
+            type="com.vignette.as.ui.common.property.PropertyPage" />
+
+        <!-- Task List form bean -->
+        <form-bean name="taskListForm"
+            type="com.vignette.as.ui.serviceprovider.task.struts.form.TaskListForm"/>
+
+        <!-- Select user form bean, use in the select user dialog -->
+        <form-bean name="selectUserForm"
+            type="com.vignette.as.ui.serviceprovider.task.struts.form.SelectUserForm"/>
+
+        <!-- Task Editor Add Note Form Bean, used to add a note to a task editor -->
+        <form-bean name="TaskEditorAddNoteForm"
+            type="com.vignette.as.ui.serviceprovider.task.struts.form.TaskEditorAddNoteForm"/>
+
+        <!-- Task Editor Form Bean, used to populate a task editor -->
+        <form-bean name="TaskEditorForm"
+            type="com.vignette.as.ui.serviceprovider.task.struts.form.TaskFormBean"/>
+
+        <!-- Static File Submit Form Bean, used to submit a file from the task editor -->
+        <form-bean name="staticFileSubmitForm"
+            type="com.vignette.as.ui.serviceprovider.task.struts.form.TaskEditorPayloadFileSubmitForm" />
+    </form-beans>
+
+    <!-- ========== Global Forward Definitions ============================== -->
+	<global-forwards>
+
+		<forward	name="/secure/errorPage"
+					path="/secure/common/errorpage.jsp" />
+
+		<forward	name="windowClose"
+					path="/secure/common/windowClose.jsp"
+					className="com.vignette.as.ui.common.action.VgnActionForward">
+					<set-property property="context" value="/AppConsole"/>
+		</forward>
+
+		<!-- window refreshes are used in the content hierarchial browser -->
+		<forward	name="windowRefresh"
+					path="/secure/common/windowRefresh.jsp"
+					className="com.vignette.as.ui.common.action.VgnActionForward">
+					<set-property property="context" value="/AppConsole"/>
+		</forward>
+
+		<forward	name="workflowWindowRefresh"
+					path="/secure/common/windowRefresh.jsp"
+					className="com.vignette.as.ui.common.action.VgnActionForward">
+					<set-property property="context" value="/workflow"/>
+		</forward>
+
+		<forward	name="workflowWindowClose"
+					path="/secure/common/windowClose.jsp"
+					className="com.vignette.as.ui.common.action.VgnActionForward">
+					<set-property property="context" value="/workflow"/>
+		</forward>
+
+        <forward	name="/secure/properties"
+                    path="/secure/properties.do"
+                    className="com.vignette.as.ui.common.action.VgnActionForward">
+                    <set-property property="context" value="/AppConsole"/>
+        </forward>
+
+        <forward	name="properties"
+			path="/secure/properties.do"
+			className="com.vignette.as.ui.common.action.VgnActionForward">
+			<set-property property="context" value="/AppConsole"/>
+		</forward>
+
+	</global-forwards>
+
+	<!-- ========== Action Mapping Definitions ============================== -->
+    <action-mappings>
+
+        <action	path="/secure/properties"
+				type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskPropertyPageAction"
+				name="propertyPage"
+				scope="request"
+				validate="true"
+                input="/secure/common/windowClose.jsp">
+
+            <forward name="doOK"		path="/secure/common/windowClose.jsp"/>
+            <forward name="doCancel"	path="/secure/common/windowClose.jsp"/>
+            <forward name="doError"		path="/secure/common/errorpage.jsp"/>
+            <forward name="doApply"		path="/secure/console-properties.jsp"/>
+            <forward name="refresh"		path="/secure/console-properties.jsp"/>
+        </action>
+
+        <!-- Launches the Default Task Editor -->
+        <action path="/secure/default"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorDefaultAction"
+            validate = "false">
+            <forward name="success"	path="/secure/editors/TaskEditorDefault.jsp"/>
+		</action>
+
+        <!-- Launches the Review Multiple Items Task Editor -->
+        <action path="/secure/reviewMultipleItems"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorReviewMultipleItemsAction"
+            validate = "false">
+            <forward name="success"	path="/secure/editors/TaskEditorReviewMultipleItems.jsp"/>
+		</action>
+
+        <!-- Launches the Single Item Task Editor -->
+        <action path="/secure/singleItem"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorSingleItemAction"
+            validate = "false">
+            <forward name="success"	path="/secure/editors/TaskEditorSingleItem.jsp"/>
+		</action>
+
+        <!-- Launches the Review Single Item Task Editor -->
+        <action path="/secure/reviewSingleItem"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorReviewSingleItemAction"
+            validate = "false">
+            <forward name="success"	path="/secure/editors/TaskEditorReviewSingleItem.jsp"/>
+		</action>
+
+        <!-- Launches the Add Note Dialog from a Task Editor -->
+		<action path="/secure/loadAddNote"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorLoadAddNoteAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+            <forward name="success"	path="/secure/editors/TaskEditorAddNote.jsp"/>
+		</action>
+
+        <!-- Launches the Decline Task Optional Note Dialog from a Task Editor -->
+        <action path="/secure/loadDeclineTask"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorLoadDeclineTaskAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+            <forward name="success"	path="/secure/editors/TaskEditorAddNote.jsp"/>
+		</action>
+
+        <!-- Launches the Reject Items Optional Note Dialog from a Task Editor -->
+        <action path="/secure/loadRejectItems"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorLoadRejectItemsAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+            <forward name="success"	path="/secure/editors/TaskEditorAddNote.jsp"/>
+		</action>
+
+        <!-- Rejects items from a task editor -->
+        <action path="/secure/rejectItems"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorRejectItemsAction"
+			name="TaskEditorForm"
+			scope="request"
+            input="/secure/editors/TaskEditorDefault.jsp"
+			validate="false">
+		</action>
+
+        <!-- Adds a note as part of the reject items action from a task editor -->
+        <action path="/secure/rejectItemsAddNote"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorRejectItemsAddNoteAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+		</action>
+
+        <!-- Adds a note to a task from a task editor -->
+		<action path="/secure/addNote"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorAddNoteAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+		</action>
+
+        <!-- Finishes a task from a task editor -->
+		<action path="/secure/taskeditorfinish"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorFinishTaskAction"
+			name="TaskEditorForm"
+			scope="request"
+            input="/secure/editors/TaskEditorDefault.jsp"
+			validate="false">
+		</action>
+
+        <!-- Approves the items from a task editor -->
+		<action path="/secure/approveItems"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorApproveItemsAction"
+			name="TaskEditorForm"
+			scope="request"
+            input="/secure/editors/TaskEditorDefault.jsp"
+			validate="false">
+		</action>
+
+        <!-- Declines a task from a task editor -->
+		<action path="/secure/taskeditordecline"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorDeclineTaskAction"
+			name="TaskEditorAddNoteForm"
+			scope="request"
+			validate="false">
+		</action>
+
+        <!-- Removes an item from the payload on a task editor -->
+		<action path="/secure/taskeditor/payloadremoveitem"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadRemoveItemAction">
+		</action>
+
+         <!-- Launches the properties page of a payload item from a task editor -->
+		<action path="/secure/taskeditor/payloadproperties"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadPropertiesAction"
+			scope="request"
+			validate="false">
+		</action>
+
+        <!-- Adds an existing item to the payload of a task from a task editor -->
+		<action path="/secure/taskeditor/payloadadditem"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadAddItemAction">
+		</action>
+
+        <!-- Creates a new Content Instance and adds it to the payload of a task from a task editor -->
+		<action path="/secure/taskeditor/payloadcreateitem"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadCreateItemAction">
+		</action>
+
+        <!-- Launches the destination project browser for the new content instance -->
+		<action path="/secure/taskeditor/payloadcreateitemprojectbrowser"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadCreateItemProjectBrowserAction">
+		</action>
+
+        <!-- Launches the submit new file dialog from a manual task -->
+        <action  path="/secure/taskeditor/newfilesubmit"
+            type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorLoadFileSubmitAction"
+            name="staticFileSubmitForm"
+            scope="request"
+            validate="false">
+            <forward name="success"	path="/secure/editors/TaskEditorSubmitFile.jsp"/>
+        </action>
+
+        <!-- Submits a file and adds it to the payload of a task from a task editor -->
+        <action  path="/secure/taskeditor/filesubmit"
+            type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadFileSubmitAction"
+            name="staticFileSubmitForm"
+            scope="request"
+            input="/secure/editors/TaskEditorSubmitFile.jsp"
+            validate="false">
+        </action>
+
+		<!-- Properties action from Payload -->
+		<action path="/secure/payloadProperties"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.PayloadPropertiesAction"
+			name="propertyPage"
+			scope="session"
+			validate="true">
+		</action>
+
+		<!-- Add Item to Payload -->
+		<action path="/secure/launchSelectUser"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.LaunchSelectUserAction"
+			name="selectUserForm"
+			scope="session"
+			validate="false">
+			<forward name="selectUserForm" path="/secure/selectUserDlg/selectUser.jsp"/>
+			<forward name="failure" path="/secure/selectUserDlg/selectUser.jsp"/>
+		</action>
+
+		<!-- Select User dialog stuff -->
+		<action path="/secure/selectUser"
+			validate = "false"
+			type="com.vignette.as.ui.serviceprovider.task.struts.actions.SelectUserAction"
+			name="selectUserForm">
+			<forward name="selectUserForm" path="/secure/selectUserDlg/selectUser.jsp" />
+ 		</action>
+
+        <action	path="/secure/taskEditorCreateContentInstance"
+				type="com.vignette.as.ui.serviceprovider.task.struts.actions.TaskEditorPayloadCreateContentInstanceAction"
+				name="propertyPage"
+				scope="session"
+				validate="true">
+
+		<forward name="doOK"		path="/secure/console.jsp"/>
+		<forward name="doCancel"	path="/secure/console.jsp"/>
+		<forward name="doError"		path="/error.jsp"/>
+		<forward name="doApply"		path="/secure/COE-properties.jsp"/>
+		<forward name="refresh"		path="/secure/COE-properties.jsp"/>
+
+    </action>
+
+	</action-mappings>
+
+</struts-config>
+

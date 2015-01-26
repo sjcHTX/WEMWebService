@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-services>
+  <web-service useSOAP12="false" targetNamespace="http://www.vignette.vps.com/" name="wfService" style="rpc" uri="/wfService">
+    <components>
+	    <java-class name="WorkflowService" class-name="com.etech.workflow.dmworkflow.WorkflowService" />
+	</components>
+	<operations>
+		<operation name="needsApproval" method="needsApproval(java.lang.String)" component="WorkflowService">
+			<params>
+				<param style="in" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string" location="body" name="payloadId" class-name="java.lang.String">
+				</param>          
+				<return-param xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string" location="body" name="result" class-name="java.lang.String">
+				</return-param>
+			</params>
+      	</operation>
+		<operation name="createVersion" method="createVersion(java.lang.String, java.lang.String, java.lang.String)" component="WorkflowService">
+			<params>
+				<param style="in" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string" location="body" name="payloadId" class-name="java.lang.String">
+				</param>          
+				<param style="in" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string" location="body" name="label" class-name="java.lang.String">
+				</param>          
+				<param style="in" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="xsd:string" location="body" name="comment" class-name="java.lang.String">
+				</param>          
+			</params>
+      	</operation>
+	</operations>
+  </web-service>
+</web-services>

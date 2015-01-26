@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<weblogic-web-app
+  xmlns="http://www.bea.com/ns/weblogic/90"
+  xmlns:j2ee="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://www.bea.com/ns/weblogic/90 http://www.bea.com/ns/weblogic/920/weblogic-web-app.xsd"> 
+	<description>Open Text Web Experience Management Application Template</description>
+	<security-role-assignment>
+      		<role-name>VignetteUser</role-name>
+      		<principal-name>everyone</principal-name>
+	</security-role-assignment>
+	<session-descriptor>
+		<persistent-store-type>replicated_if_clustered</persistent-store-type>
+	</session-descriptor>
+	<jsp-descriptor>
+		<keepgenerated>true</keepgenerated>
+	</jsp-descriptor>
+    <container-descriptor>
+        <check-auth-on-forward/>
+    </container-descriptor>
+	<charset-params>
+		<input-charset>
+			  <resource-path>/*</resource-path>
+			  <java-charset-name>UTF8</java-charset-name>
+		</input-charset>
+	</charset-params>
+</weblogic-web-app>
